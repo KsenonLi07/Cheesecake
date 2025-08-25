@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вкусные рецепты чизкейков</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, #6d4c41 0%, #8d6e63 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Навигация */
+        nav {
+            background-color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .home-link {
+            background-color: #5d4037;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .home-link:hover {
+            background-color: #8d6e63;
+            transform: translateY(-2px);
+        }
+        
+        .home-icon {
+            margin-right: 8px;
+        }
+        
+        .recipes-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .recipe-link {
+            background-color: #f5f5f5;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #5d4037;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .recipe-link:hover {
+            background-color: #8d6e63;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Основной контент */
+        main {
+            padding: 3rem 0;
+            flex: 1;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Главная страница */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #5d4037;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .cheesecake-icon {
+            font-size: 4rem;
+            color: #8d6e63;
+            margin-bottom: 1rem;
+        }
+        
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-image {
+            height: 180px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-content h3 {
+            color: #5d4037;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .card-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .view-recipe {
+            display: inline-block;
+            background-color: #8d6e63;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .view-recipe:hover {
+            background-color: #5d4037;
+        }
+        
+        /* Страница рецепта */
+        .recipe-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .recipe-title {
+            font-size: 2.5rem;
+            color: #5d4037;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .recipe-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8d6e63;
+        }
+        
+        .recipe-image {
+            width: 100%;
+            height: 300px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .recipe-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .recipe-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .recipes-nav {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                justify-content: flex-start;
+            }
+        }
+        
+        .ingredients, .instructions {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        h3 {
+            color: #5d4037;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        h4 {
+            color: #8d6e63;
+            margin: 1.2rem 0 0.5rem;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #5d4037;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Цветовые схемы для разных рецептов */
+        .classic { --accent-color: #6d4c41; }
+        .caramel { --accent-color: #e65100; }
+        .chocolate { --accent-color: #4e342e; }
+        .mint { --accent-color: #43a047; }
+        .raspberry { --accent-color: #d81b60; }
+        .pistachio { --accent-color: #689f38; }
+        .san-sebastian { --accent-color: #f9a825; }
+        .blueberry { --accent-color: #4527a0; }
+        
+        .recipe-link.classic:hover { background-color: var(--accent-color); }
+        .recipe-link.caramel:hover { background-color: var(--accent-color); }
+        .recipe-link.chocolate:hover { background-color: var(--accent-color); }
+        .recipe-link.mint:hover { background-color: var(--accent-color); }
+        .recipe-link.raspberry:hover { background-color: var(--accent-color); }
+        .recipe-link.pistachio:hover { background-color: var(--accent-color); }
+        .recipe-link.san-sebastian:hover { background-color: var(--accent-color); }
+        .recipe-link.blueberry:hover { background-color: var(--accent-color); }
+        
+        .classic .recipe-title { color: var(--accent-color); }
+        .caramel .recipe-title { color: var(--accent-color); }
+        .chocolate .recipe-title { color: var(--accent-color); }
+        .mint .recipe-title { color: var(--accent-color); }
+        .raspberry .recipe-title { color: var(--accent-color); }
+        .pistachio .recipe-title { color: var(--accent-color); }
+        .san-sebastian .recipe-title { color: var(--accent-color); }
+        .blueberry .recipe-title { color: var(--accent-color); }
+        
+        .classic .recipe-title:after { background-color: var(--accent-color); }
+        .caramel .recipe-title:after { background-color: var(--accent-color); }
+        .chocolate .recipe-title:after { background-color: var(--accent-color); }
+        .mint .recipe-title:after { background-color: var(--accent-color); }
+        .raspberry .recipe-title:after { background-color: var(--accent-color); }
+        .pistachio .recipe-title:after { background-color: var(--accent-color); }
+        .san-sebastian .recipe-title:after { background-color: var(--accent-color); }
+        .blueberry .recipe-title:after { background-color: var(--accent-color); }
+        
+        .classic .view-recipe { background-color: var(--accent-color); }
+        .caramel .view-recipe { background-color: var(--accent-color); }
+        .chocolate .view-recipe { background-color: var(--accent-color); }
+        .mint .view-recipe { background-color: var(--accent-color); }
+        .raspberry .view-recipe { background-color: var(--accent-color); }
+        .pistachio .view-recipe { background-color: var(--accent-color); }
+        .san-sebastian .view-recipe { background-color: var(--accent-color); }
+        .blueberry .view-recipe { background-color: var(--accent-color); }
+        
+        .classic .view-recipe:hover { background-color: #5d4037; }
+        .caramel .view-recipe:hover { background-color: #bf360c; }
+        .chocolate .view-recipe:hover { background-color: #3e2723; }
+        .mint .view-recipe:hover { background-color: #2e7d32; }
+        .raspberry .view-recipe:hover { background-color: #ad1457; }
+        .pistachio .view-recipe:hover { background-color: #558b2f; }
+        .san-sebastian .view-recipe:hover { background-color: #f57f17; }
+        .blueberry .view-recipe:hover { background-color: #311b92; }
+        
+        .classic .card-image { background: linear-gradient(to bottom, #6d4c41, #8d6e63); }
+        .caramel .card-image { background: linear-gradient(to bottom, #e65100, #ff833a); }
+        .chocolate .card-image { background: linear-gradient(to bottom, #4e342e, #795548); }
+        .mint .card-image { background: linear-gradient(to bottom, #43a047, #66bb6a); }
+        .raspberry .card-image { background: linear-gradient(to bottom, #d81b60, #ec407a); }
+        .pistachio .card-image { background: linear-gradient(to bottom, #689f38, #8bc34a); }
+        .san-sebastian .card-image { background: linear-gradient(to bottom, #f9a825, #fbc02d); }
+        .blueberry .card-image { background: linear-gradient(to bottom, #4527a0, #5c6bc0); }
+        
+        .classic .recipe-image { background: linear-gradient(to right, #6d4c41, #8d6e63); }
+        .caramel .recipe-image { background: linear-gradient(to right, #e65100, #ff833a); }
+        .chocolate .recipe-image { background: linear-gradient(to right, #4e342e, #795548); }
+        .mint .recipe-image { background: linear-gradient(to right, #43a047, #66bb6a); }
+        .raspberry .recipe-image { background: linear-gradient(to right, #d81b60, #ec407a); }
+        .pistachio .recipe-image { background: linear-gradient(to right, #689f38, #8bc34a); }
+        .san-sebastian .recipe-image { background: linear-gradient(to right, #f9a825, #fbc02d); }
+        .blueberry .recipe-image { background: linear-gradient(to right, #4527a0, #5c6bc0); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🍰</span>
+                <span>Чизкейк Мания</span>
+            </div>
+            <p>Откройте для себя восхитительные вариации нежного десерта</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="home-link" id="homeLink">
+                <span class="home-icon">🏠</span>
+                <span>Главная</span>
+            </a>
+            <div class="recipes-nav">
+                <a href="#" class="recipe-link classic" data-target="classic">Классический</a>
+                <a href="#" class="recipe-link caramel" data-target="caramel">Карамельный</a>
+                <a href="#" class="recipe-link chocolate" data-target="chocolate">Шоколадный</a>
+                <a href="#" class="recipe-link mint" data-target="mint">Мятный</a>
+                <a href="#" class="recipe-link raspberry" data-target="raspberry">Малиновый</a>
+                <a href="#" class="recipe-link pistachio" data-target="pistachio">Фисташковый</a>
+                <a href="#" class="recipe-link san-sebastian" data-target="san-sebastian">Сан Себастьян</a>
+                <a href="#" class="recipe-link blueberry" data-target="blueberry">Черничный</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="container">
+            <!-- Главная страница -->
+            <div id="home" class="page active">
+                <div class="hero">
+                    <div class="cheesecake-icon">🍰</div>
+                    <h2>Добро пожаловать в мир чизкейков!</h2>
+                    <p>Откройте для себя коллекцию изысканных рецептов чизкейков на любой вкус. От классического до экзотического - у нас есть рецепт для каждого любителя этого нежного десерта.</p>
+                </div>
+                
+                <div class="recipes-grid">
+                    <div class="recipe-card" data-target="classic">
+                        <div class="card-image classic">Классический чизкейк</div>
+                        <div class="card-content">
+                            <h3>Классический</h3>
+                            <p>Нежный и creamy чизкейк с ванильным ароматом на песочной основе</p>
+                            <span class="view-recipe classic">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="caramel">
+                        <div class="card-image caramel">Карамельный чизкейк</div>
+                        <div class="card-content">
+                            <h3>Карамельный</h3>
+                            <p>Сливочный чизкейк с карамельным соусом и щепоткой морской соли</p>
+                            <span class="view-recipe caramel">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="chocolate">
+                        <div class="card-image chocolate">Шоколадный чизкейк</div>
+                        <div class="card-content">
+                            <h3>Шоколадный</h3>
+                            <p>Богатый шоколадный вкус с темным шоколадом и какао</p>
+                            <span class="view-recipe chocolate">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="mint">
+                        <div class="card-image mint">Мятный чизкейк</div>
+                        <div class="card-content">
+                            <h3>Мятный</h3>
+                            <p>Освежающий мятный чизкейк с шоколадной основой</p>
+                            <span class="view-recipe mint">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="raspberry">
+                        <div class="card-image raspberry">Малиновый чизкейк</div>
+                        <div class="card-content">
+                            <h3>Малиновый</h3>
+                            <p>Нежный чизкейк с малиновым курдом и свежими ягодами</p>
+                            <span class="view-recipe raspberry">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="pistachio">
+                        <div class="card-image pistachio">Фисташковый чизкейк</div>
+                        <div class="card-content">
+                            <h3>Фисташковый</h3>
+                            <p>Ароматный фисташковый чизкейк с хрустящей основой</p>
+                            <span class="view-recipe pistachio">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="san-sebastian">
+                        <div class="card-image san-sebastian">Сан Себастьян</div>
+                        <div class="card-content">
+                            <h3>Сан Себастьян</h3>
+                            <p>Знаменитый баскский чизкейк с кремовой текстурой</p>
+                            <span class="view-recipe san-sebastian">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-card" data-target="blueberry">
+                        <div class="card-image blueberry">Черничный чизкейк</div>
+                        <div class="card-content">
+                            <h3>Черничный</h3>
+                            <p>Сливочный чизкейк с черничным топпингом и цедрой лимона</p>
+                            <span class="view-recipe blueberry">Смотреть рецепт</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Классический чизкейк -->
+            <div id="classic" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Классический чизкейк</h2>
+                    <div class="recipe-image">Классический чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>200 г песочного печенья</li>
+                            <li>100 г сливочного масла</li>
+                            <li>1 ст.л. сахара</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>600 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                            <li>2 ст.л. кукурузного крахмала</li>
+                            <li>Цедра одного лимона</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C. Форму для выпечки смажьте маслом.</li>
+                            <li>Измельчите печенье в крошку, смешайте с растопленным маслом и сахаром.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите 15 минут.</li>
+                            <li>Взбейте сыр с сахарной пудрой до кремообразной консистенции.</li>
+                            <li>Добавляйте яйца по одному, продолжая взбивать.</li>
+                            <li>Добавьте сметану, ваниль, крахмал и цедру лимона, перемешайте до однородности.</li>
+                            <li>Вылейте начинку на основу, разровняйте.</li>
+                            <li>Выпекайте 50-60 минут до золотистого края и слегка покачивающейся середины.</li>
+                            <li>Остудите в выключенной духовке с приоткрытой дверцей в течение часа.</li>
+                            <li>Охладите в холодильнике не менее 4 часов, лучше overnight.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Карамельный чизкейк -->
+            <div id="caramel" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Карамельный чизкейк</h2>
+                    <div class="recipe-image">Карамельный чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>150 г песочного печенья</li>
+                            <li>50 г миндаля</li>
+                            <li>80 г сливочного масла</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>100 г коричневого сахара</li>
+                            <li>3 яйца</li>
+                            <li>150 г сметаны</li>
+                            <li>100 г карамельного соуса</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                            <li>Щепотка морской соли</li>
+                        </ul>
+                        
+                        <h4>Топпинг:</h4>
+                        <ul>
+                            <li>Карамельный соус</li>
+                            <li>Морская соль</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье и миндаль, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Взбейте сыр с коричневым сахаром до кремообразности.</li>
+                            <li>Добавляйте яйца по одному, затем сметану, карамель, ваниль и соль.</li>
+                            <li>Вылейте начинку на основу, разровняйте.</li>
+                            <li>Выпекайте 50-55 минут до готовности.</li>
+                            <li>Остудите в духовке, затем охладите в холодильнике.</li>
+                            <li>Перед подачей полейте карамельным соусом и посыпьте морской солью.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Шоколадный чизкейк -->
+            <div id="chocolate" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Шоколадный чизкейк</h2>
+                    <div class="recipe-image">Шоколадный чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>200 г шоколадного печенья</li>
+                            <li>100 г сливочного масла</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>200 г темного шоколада</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>2 ст.л. какао-порошка</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                        </ul>
+                        
+                        <h4>Глазурь:</h4>
+                        <ul>
+                            <li>100 г темного шоколада</li>
+                            <li>50 мл сливок</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Растопите шоколад на водяной бане, дайте остыть.</li>
+                            <li>Взбейте сыр с сахарной пудрой, добавьте яйца по одному.</li>
+                            <li>Добавьте растопленный шоколад, сметану, какао и ваниль.</li>
+                            <li>Вылейте на основу и выпекайте 55-60 минут.</li>
+                            <li>Остудите, затем охладите в холодильнике.</li>
+                            <li>Приготовьте глазурь, растопив шоколад со сливками.</li>
+                            <li>Полейте чизкейк глазурью перед подачей.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Мятный чизкейк -->
+            <div id="mint" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Мятный чизкейк</h2>
+                    <div class="recipe-image">Мятный чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>150 г шоколадного печенья</li>
+                            <li>80 г сливочного масла</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>2 ч.л. экстракта мяты</li>
+                            <li>Зеленый пищевой краситель (по желанию)</li>
+                            <li>100 г растопленного белого шоколада</li>
+                        </ul>
+                        
+                        <h4>Топпинг:</h4>
+                        <ul>
+                            <li>100 г темного шоколада</li>
+                            <li>50 мл сливок</li>
+                            <li>Листики мяты для украшения</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Взбейте сыр с сахарной пудрой, добавьте яйца по одному.</li>
+                            <li>Добавьте сметану, экстракт мяты, краситель и растопленный шоколад.</li>
+                            <li>Вылейте на основу и выпекайте 50-55 минут.</li>
+                            <li>Остудите и охладите в холодильнике.</li>
+                            <li>Приготовьте шоколадный ганаш, растопив шоколад со сливками.</li>
+                            <li>Полейте чизкейк ганашем и украсьте мятой перед подачей.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Малиновый чизкейк -->
+            <div id="raspberry" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Малиновый чизкейк</h2>
+                    <div class="recipe-image">Малиновый чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>200 г песочного печенья</li>
+                            <li>100 г сливочного масла</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>200 г малинового пюре</li>
+                            <li>1 ст.л. кукурузного крахмала</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                        </ul>
+                        
+                        <h4>Малиновый соус:</h4>
+                        <ul>
+                            <li>200 г свежей или замороженной малины</li>
+                            <li>50 г сахара</li>
+                            <li>1 ч.л. лимонного сока</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Взбейте сыр с сахарной пудрой, добавьте яйца по одному.</li>
+                            <li>Добавьте сметану, малиновое пюре, крахмал и ваниль.</li>
+                            <li>Вылейте на основу и выпекайте 50-55 минут.</li>
+                            <li>Остудите и охладите в холодильнике.</li>
+                            <li>Приготовьте малиновый соус, проварив малину с сахаром и лимонным соком.</li>
+                            <li>Перед подачей полейте чизкейк малиновым соусом.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Фисташковый чизкейк -->
+            <div id="pistachio" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Фисташковый чизкейк</h2>
+                    <div class="recipe-image">Фисташковый чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>150 г песочного печенья</li>
+                            <li>50 г фисташек</li>
+                            <li>80 г сливочного масла</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>100 г молотых фисташек</li>
+                            <li>1 ч.л. миндального экстракта</li>
+                            <li>Зеленый пищевой краситель (по желанию)</li>
+                        </ul>
+                        
+                        <h4>Украшение:</h4>
+                        <ul>
+                            <li>50 г измельченных фисташек</li>
+                            <li>Фисташковое мороженое (по желанию)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье и фисташки, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Взбейте сыр с сахарной пудрой, добавьте яйца по одному.</li>
+                            <li>Добавьте сметану, молотые фисташки, экстракт и краситель.</li>
+                            <li>Вылейте на основу и выпекайте 50-55 минут.</li>
+                            <li>Остудите и охладите в холодильнике.</li>
+                            <li>Перед подачей посыпьте измельченными фисташками.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Сан Себастьян -->
+            <div id="san-sebastian" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Сан Себастьян</h2>
+                    <div class="recipe-image">Сан Себастьян</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа (необязательно):</h4>
+                        <ul>
+                            <li>100 г миндального печенья (по желанию)</li>
+                            <li>50 г сливочного масла (по желанию)</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>600 г сливочного сыра</li>
+                            <li>200 г сахарной пудры</li>
+                            <li>4 яйца</li>
+                            <li>500 мл сливок 35%</li>
+                            <li>2 ст.л. муки</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 200°C.</li>
+                            <li>Если используете основу, измельчите печенье и смешайте с маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте (или просто смажьте форму маслом).</li>
+                            <li>Взбейте сыр с сахарной пудрой до кремообразности.</li>
+                            <li>Добавляйте яйца по одному, затем сливки, муку и ваниль.</li>
+                            <li>Вылейте начинку в форму и выпекайте 35-40 минут до золотистой корочки.</li>
+                            <li>Остудите при комнатной температуре, затем охладите в холодильнике.</li>
+                            <li>Подавайте при комнатной температуре для лучшего вкуса.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Черничный чизкейк -->
+            <div id="blueberry" class="page">
+                <div class="recipe-header">
+                    <h2 class="recipe-title">Черничный чизкейк</h2>
+                    <div class="recipe-image">Черничный чизкейк</div>
+                </div>
+                
+                <div class="recipe-content">
+                    <div class="ingredients">
+                        <h3>Ингредиенты</h3>
+                        <h4>Основа:</h4>
+                        <ul>
+                            <li>200 г песочного печенья</li>
+                            <li>100 г сливочного масла</li>
+                            <li>50 г грецких орехов</li>
+                        </ul>
+                        
+                        <h4>Начинка:</h4>
+                        <ul>
+                            <li>500 г сливочного сыра</li>
+                            <li>150 г сахарной пудры</li>
+                            <li>3 яйца</li>
+                            <li>200 г сметаны</li>
+                            <li>Цедра одного лимона</li>
+                            <li>2 ст.л. лимонного сока</li>
+                            <li>1 ч.л. ванильного экстракта</li>
+                        </ul>
+                        
+                        <h4>Черничный топпинг:</h4>
+                        <ul>
+                            <li>300 г свежей или замороженной черники</li>
+                            <li>50 г сахара</li>
+                            <li>1 ст.л. лимонного сока</li>
+                            <li>1 ч.л. кукурузного крахмала</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>Приготовление</h3>
+                        <ol>
+                            <li>Разогрейте духовку до 160°C.</li>
+                            <li>Измельчите печенье и орехи, смешайте с растопленным маслом.</li>
+                            <li>Выложите массу в форму, утрамбуйте и охладите.</li>
+                            <li>Взбейте сыр с сахарной пудрой, добавьте яйца по одному.</li>
+                            <li>Добавьте сметану, цедру, лимонный сок и ваниль.</li>
+                            <li>Вылейте на основу и выпекайте 50-55 минут.</li>
+                            <li>Остудите и охладите в холодильнике.</li>
+                            <li>Приготовьте черничный топпинг, проварив чернику с сахаром, лимонным соком и крахмалом.</li>
+                            <li>Перед подачей полейте чизкейк черничным топпингом.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Вкусные рецепты чизкейков. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Находим все элементы для навигации
+            const homeLink = document.getElementById('homeLink');
+            const recipeLinks = document.querySelectorAll('.recipe-link');
+            const recipeCards = document.querySelectorAll('.recipe-card');
+            const pages = document.querySelectorAll('.page');
+            
+            // Функция для переключения страниц
+            function showPage(pageId) {
+                // Скрываем все страницы
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Показываем целевую страницу
+                document.getElementById(pageId).classList.add('active');
+                
+                // Плавно прокручиваем к верху страницы
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Обновляем URL с хэшем
+                window.location.hash = pageId;
+            }
+            
+            // Проверяем хэш при загрузке страницы
+            if (window.location.hash) {
+                const targetPage = window.location.hash.substring(1);
+                if (document.getElementById(targetPage)) {
+                    showPage(targetPage);
+                }
+            }
+            
+            // Добавляем обработчик для ссылки на главную
+            homeLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('home');
+            });
+            
+            // Добавляем обработчики для ссылок на рецепты
+            recipeLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetRecipe = this.getAttribute('data-target');
+                    showPage(targetRecipe);
+                });
+            });
+            
+            // Добавляем обработчики для карточек рецептов
+            recipeCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const targetRecipe = this.getAttribute('data-target');
+                    showPage(targetRecipe);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
